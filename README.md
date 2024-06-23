@@ -9,8 +9,8 @@ Written as project for Internet Engineering classes.
 - Follow system - like in Instagram or Twitter
 - Account can be private or public
 - Community groups - public, private or hidden, with user roles
-- Image upload
-- Posts with images or survey
+- File upload and video streaming
+- Surveys
 - Comments
 - Dark mode
 
@@ -28,11 +28,6 @@ Written as project for Internet Engineering classes.
 
 
 ## How to run locally
-
-```bash
-git clone https://github.com/your_username/MERN-SocialApp.git
-```
-
 1. Install dependencies
 
 ```bash
