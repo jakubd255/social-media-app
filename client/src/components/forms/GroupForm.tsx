@@ -18,8 +18,8 @@ const GroupForm: React.FC = () => {
     const [option, setOption] = useState<string>("public");
 
     const handleConfirm = () => {
-        let visibility = option == "hidden" ? "hidden" : "visible";
-        let privacy = option == "public" ? "public" : "private";
+        const visibility = option == "hidden" ? "hidden" : "visible";
+        const privacy = option == "public" ? "public" : "private";
 
         store.dispatch(addGroup({name, privacy, visibility}));
     }

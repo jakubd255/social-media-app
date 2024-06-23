@@ -5,7 +5,7 @@ import store from "@/store";
 import {getUsers, loadMoreUsers} from "@/store/slices/usersSlice.ts";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProfilesListElement from "@/components/user/ProfilesListElement.tsx";
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 
 
 

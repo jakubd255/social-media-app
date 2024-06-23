@@ -9,7 +9,7 @@ import authorizeAdmin from "../middlewares/authorizeAdmin";
 
 const router = express.Router();
 
-router.post("/", upload.array("images", 5), authenticate, catchAsync(posts.add));
+router.post("/", upload.array("files", 5), authenticate, catchAsync(posts.add));
 
 router.get("/explore/:input?", authenticate, catchAsync(posts.explore));
 router.get("/admin/:input?", authenticate, authorizeAdmin, catchAsync(posts.adminGet));

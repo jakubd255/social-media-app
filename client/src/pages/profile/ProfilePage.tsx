@@ -17,7 +17,7 @@ import getPronouns from "@/functions/pronouns.ts";
 import {Dialog, DialogContent, DialogHeader} from "@/components/ui/dialog.tsx";
 import ProfileLoadingPage from "@/components/loading/ProfileLoadingPage.tsx";
 import {ProfileNotFound} from "@/pages/error";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -41,13 +41,13 @@ const ProfilePage: React.FC = () => {
                 <div className="relative">
                     <div className="w-full bg-image-wrapper rounded-lg rounded-t-none">
                         <img
-                            src={profile.backgroundImage && imageUrl(profile.backgroundImage)}
+                            src={profile.backgroundImage && fileUrl(profile.backgroundImage)}
                             className="aspect-[12/4] w-[1200px] object-cover block"
                             draggable={false}
                         />
                     </div>
                     <Avatar className="absolute bottom-0 left-5 translate-y-1/2 w-[200px] h-[200px] border-4">
-                        <AvatarImage src={profile.profileImage && imageUrl(profile.profileImage)}/>
+                        <AvatarImage src={profile.profileImage && fileUrl(profile.profileImage)}/>
                         <AvatarFallback className="text-9xl uppercase">
                             {initials(profile.fullname)}
                         </AvatarFallback>

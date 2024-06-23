@@ -29,7 +29,7 @@ export interface User {
 export interface Post {
     _id: string,
     text: string,
-    images?: string[],
+    files?: string[],
 
     survey?: Survey,
 
@@ -106,3 +106,5 @@ export interface Group {
     requested?: boolean;
     joined?: boolean;
 }
+
+export type FileType = "image" | "video" |"file";

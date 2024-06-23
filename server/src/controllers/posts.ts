@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 import GroupModel from "../models/groups";
 import UserModel from "../models/users";
 import getRole from "../queries/groups/getRole";
-import CommentModel from "../models/comments";
+import deletePosts from "../queries/posts/deletePosts";
 
 const pageSize = 10;
 
@@ -21,12 +21,12 @@ const pageSize = 10;
 export const add = async (req: Request, res: Response) => {
     const {user} = req.body;
     const files: Express.Multer.File[] = (req.files as Express.Multer.File[]) || [];
-    const imagePaths = files.map((file) => file.path);
+    const filesPaths = files.map((file) => file.path.split("/")[1]);
 
     const post = JSON.parse(req.body.postData);
 
-    if(imagePaths.length) {
-        post.images = imagePaths;
+    if(filesPaths.length) {
+        post.files = filesPaths;
     }
 
     let canAdd = false;
@@ -64,7 +64,7 @@ export const add = async (req: Request, res: Response) => {
         const newPost = new PostModel(post);
         await newPost.save();
 
-        return res.status(201).json({postId: newPost._id, images: imagePaths});
+        return res.status(201).json({postId: newPost._id, files: filesPaths});
     }
     else {
         return res.status(403).send();
@@ -276,7 +276,7 @@ export const addVoteOption = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
     const {user} = req.body;
     const {id} = req.params;
-    const post = await PostModel.findByIdAndDelete(id).select("_id userId groupId").exec();
+    const post = await PostModel.findById(id).select("_id userId groupId").exec();
 
     if(!post) {
         return res.status(404).send();
@@ -302,8 +302,8 @@ export const remove = async (req: Request, res: Response) => {
     }
 
     if(canDelete) {
-        await PostModel.findByIdAndDelete(id).exec();
-        await CommentModel.deleteMany({postId: post._id}).exec();
+        await deletePosts({_id: new mongoose.Types.ObjectId(id)});
+
         return res.status(200).send();
     }
     else {
