@@ -1,11 +1,9 @@
 import React from "react";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import initials from "@/functions/initials.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Link} from "react-router-dom";
 import RoleIcon from "@/components/group/RoleIcon.tsx";
 import {Group, User} from "@/types";
-import imageUrl from "@/functions/imageUrl";
+import Avatar from "@/components/Avatar";
 
 
 
@@ -18,25 +16,16 @@ const PostGroup: React.FC<PostGroupProps> = ({user, group}) => {
     return(
         <div className="flex gap-5">
             <div className="relative">
-                <Avatar className="!rounded-sm">
-                    <AvatarImage 
-                        src={group.backgroundImage && imageUrl(group.backgroundImage)} 
-                        draggable={false}
-                    />
-                    <AvatarFallback>
-                        {initials(group.name)}
-                    </AvatarFallback>
-                </Avatar>
+                <Avatar
+                    className="!rounded-sm"
+                    name={group.name}
+                    image={group.backgroundImage}
+                />
                 <div className="absolute top-2 left-2">
-                    <Avatar>
-                        <AvatarImage 
-                            src={user.profileImage && imageUrl(user.profileImage)} 
-                            draggable={false}
-                        />
-                        <AvatarFallback>
-                            {initials(user.fullname)}
-                        </AvatarFallback>
-                    </Avatar>
+                    <Avatar
+                        name={user.fullname}
+                        image={user.profileImage}
+                    />
                 </div>
             </div>
             <div className="flex flex-col">

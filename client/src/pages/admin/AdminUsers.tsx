@@ -9,7 +9,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Badge} from "@/components/ui/badge";
 import initials from "@/functions/initials.ts";
 import {useSelector} from "react-redux";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -60,7 +60,7 @@ const AdminUsers: React.FC = () => {
                     <TableRow>
                         <TableCell className="py-0">
                             <Avatar>
-                                <AvatarImage src={imageUrl(u.profileImage)}/>
+                                <AvatarImage src={fileUrl(u.profileImage)}/>
                                 <AvatarFallback>
                                     {initials(u.fullname)}
                                 </AvatarFallback>

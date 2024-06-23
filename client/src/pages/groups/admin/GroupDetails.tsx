@@ -9,7 +9,7 @@ import {Camera, Loader2} from "lucide-react";
 import {useSelector} from "react-redux";
 import store from "@/store";
 import {updateGroup} from "@/store/slices/groupsSlice.ts";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -53,7 +53,7 @@ const GroupDetails: React.FC = () => {
             <div className="flex flex-col items-center bg-image-wrapper rounded-lg rounded-t-none relative">
                 <img
                     className="aspect-[12/4] w-[100%] max-w-[1200px] object-cover bg-gray-700"
-                    src={backgroundImage.getLength() ? backgroundImage.getUrl() : imageUrl(group.backgroundImage)}
+                    src={backgroundImage.getLength() ? backgroundImage.getUrl() : fileUrl(group.backgroundImage)}
                     draggable={false}
                 />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -91,9 +91,9 @@ const GroupDetails: React.FC = () => {
                         />
                     </div>
                 </div>
-
                 <input
                     type="file"
+                    accept="image/*"
                     onChange={backgroundImage.handleFileChange}
                     style={{display: "none"}}
                     ref={backgroundImage.ref}

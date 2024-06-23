@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {Card, CardContent, CardFooter} from "@/components/ui/card.tsx";
 import GroupTypeInfo from "@/components/group/GroupTypeInfo.tsx";
 import {Group} from "@/types";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -18,7 +18,7 @@ const GroupCard: React.FC<{group: Group}> = ({group}) => {
                     <div className="image-optional">
                         <img
                             className="bg-gray-700 aspect-[12/4] w-full object-cover"
-                            src={group.backgroundImage && imageUrl(group.backgroundImage)}
+                            src={group.backgroundImage && fileUrl(group.backgroundImage)}
                         />
                     </div>
                 </CardContent>

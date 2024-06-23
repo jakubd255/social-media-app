@@ -8,7 +8,8 @@ import {MoreHorizontal, Trash2} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {useOutletContext} from "react-router-dom";
 import initials from "@/functions/initials.ts";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
+import checkFileType from "@/functions/checkFileType";
 
 
 
@@ -39,7 +40,10 @@ const AdminPosts: React.FC = () => {
                         Text
                     </TableHead>
                     <TableHead>
-                        Images or Survey
+                        Files
+                    </TableHead>
+                    <TableHead>
+                        Survey
                     </TableHead>
                     <TableHead>
                         Likes
@@ -60,7 +64,7 @@ const AdminPosts: React.FC = () => {
                             {p.user ? (
                                 <div className="flex gap-2 py-0">
                                     <Avatar>
-                                        <AvatarImage src={imageUrl(p.user.profileImage)}/>
+                                        <AvatarImage src={fileUrl(p.user.profileImage)}/>
                                         <AvatarFallback>
                                             {initials(p.user.fullname)}
                                         </AvatarFallback>
@@ -82,13 +86,30 @@ const AdminPosts: React.FC = () => {
                             </div>
                         </TableCell>
                         <TableCell className="py-0">
-                            {p.images.length ? (
-                                <div className="flex gap-2">
-                                    {p.images.map((image: string) => 
-                                        <img src={imageUrl(image)} className="max-w-[100px] max-h-[60px]"/>
-                                    )}
+                            {p.files.length ? (
+                                <div className="flex gap-2 max-w-[500px]">
+                                    {p.files.map((file: string) => (
+                                        <>
+                                            {checkFileType(file) == "image" ? (
+                                                <img src={fileUrl(file)} className="max-w-[100px] max-h-[60px]"/>
+                                            ) : checkFileType(file) == "video" ? (
+                                                <video src={fileUrl(file)} className="max-w-[100px] max-h-[60px]"/>
+                                            ) : (
+                                                <a
+                                                    className="hover:underline"
+                                                    href={fileUrl(file)} 
+                                                    download
+                                                >
+                                                    {file.split("-")[1]}
+                                                </a>
+                                            )}
+                                        </>
+                                    ))}
                                 </div>
-                            ) : p.survey ? (
+                            ) : null}
+                        </TableCell>
+                        <TableCell>
+                            {p.survey ? (
                                 <div className="flex flex-col gap-1">
                                     {p.survey.choices.map((choice: SurveyChoice) => 
                                         <div className="flex justify-between gap-5">
@@ -114,7 +135,7 @@ const AdminPosts: React.FC = () => {
                                 <div className="flex gap-1 items-center">
                                     {p.group.backgroundImage ?
                                         <img 
-                                            src={imageUrl(p.group.backgroundImage)}
+                                            src={fileUrl(p.group.backgroundImage)}
                                             className="max-w-[100px] aspect-[12/4] object-cover"
                                             draggable={false}
                                         />

@@ -2,7 +2,7 @@ import {Button} from "@/components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow}  from "@/components/ui/table";
 import server from "@/constants/server";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 import {MoreHorizontal, Trash2} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {useOutletContext} from "react-router-dom";
@@ -50,7 +50,7 @@ const AdminGroups: React.FC = () => {
                         <TableCell>
                             {g.backgroundImage ? (
                                 <img 
-                                    src={imageUrl(g.backgroundImage)} 
+                                    src={fileUrl(g.backgroundImage)} 
                                     className="max-w-[100px] aspect-[12/4] object-cover"
                                 />
                             ) : null}

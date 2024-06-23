@@ -60,12 +60,12 @@ export const loadMorePosts = createAsyncThunk(
 
 export const addPost = createAsyncThunk(
     "posts/addPost",
-    async ({post, images}: any, thunkAPI) => {
+    async ({post, files}: any, thunkAPI) => {
         const formData = new FormData();
         formData.append("postData", JSON.stringify(post));
 
-        for(let i=0; i<images.length; i++) {
-            formData.append("images", images[i]);
+        for(let i=0; i<files.length; i++) {
+            formData.append("files", files[i]);
         }
 
         const response = await server.post("/posts/", formData, {headers: {"Content-Type": "multipart/form-data"}});
@@ -75,8 +75,8 @@ export const addPost = createAsyncThunk(
         post.user = thunkAPI.getState().auth.user;
         post._id = data.postId;
 
-        if(data.images) {
-            post.images = data.images;
+        if(data.files) {
+            post.files = data.files;
         }
 
         return post;

@@ -13,6 +13,8 @@ import PostGroup from "@/components/post/author/PostGroup.tsx";
 import DestroyableDialog from "@/components/DestroyableDialog.tsx";
 import CommentsList from "@/components/post/comments/CommentsList.tsx";
 import {Post} from "@/types";
+import checkFileType from "@/functions/checkFileType";
+import PostFiles from "./PostFiles";
 
 
 
@@ -25,6 +27,9 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
     const handleLike = () => store.dispatch(postsActions.like(post._id));
 
     const likeClass = `icon ${post.isLiked && "fill-black dark:fill-white"}`;
+
+    const images = post.files?.filter(file => ["video", "image"].includes(checkFileType(file))) as string[];
+    const files = post.files?.filter(file => !["video", "image"].includes(checkFileType(file))) as string[];
 
     if(post) return(
         <Card className="max-w-[600px] w-full">
@@ -45,16 +50,22 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="px-0 flex flex-col gap-2.5">
+
+            <CardContent className="px-0 py-3 flex flex-col gap-4">
                 <pre className="px-3 text-left font-sans whitespace-pre-wrap">
                     {post.text}
                 </pre>
-                {post.images?.length ? (
-                    <PostImages images={post.images}/>
-                ) : post.survey ? (
+                {post.files?.length ? (
+                    <>
+                        <PostImages images={images}/>
+                        <PostFiles files={files}/>
+                    </>
+                ) : null}
+                {post.survey ? (
                     <PostSurvey post={post}/>
                 ) : null}
             </CardContent>
+            
             <CardFooter className="flex justify-between items-center">
                 <div className="flex gap-2">
                     <Button

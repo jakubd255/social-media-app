@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Search} from "lucide-react";
-import {Avatar, AvatarFallback, AvatarImage} from "../../ui/avatar";
 import server from "@/constants/server";
-import initials from "@/functions/initials.ts";
 import {Link, useParams} from "react-router-dom";
 import {Input} from "../../ui/input";
 import {CommandDialog, CommandEmpty, CommandGroup, CommandItem, CommandList} from "@/components/ui/command";
 import {useSelector} from "react-redux";
-import imageUrl from "@/functions/imageUrl";
+import Avatar from "@/components/Avatar";
 
 
 
@@ -94,12 +92,10 @@ const SearchButton: React.FC = () => {
                                         onClick={handleReset}
                                     >
                                         <CommandItem className="flex gap-2 cursor-pointer">
-                                            <Avatar>
-                                                <AvatarFallback>
-                                                    {initials(user.fullname)}
-                                                </AvatarFallback>
-                                                <AvatarImage src={user.profileImage && imageUrl(user.profileImage)}/>
-                                            </Avatar>
+                                            <Avatar
+                                                name={user.fullname}
+                                                image={user.profileImage}
+                                            />
                                             <div className="flex flex-col">
                                             <span>
                                                 {user.fullname}
@@ -123,12 +119,11 @@ const SearchButton: React.FC = () => {
                                         onClick={handleReset}
                                     >
                                         <CommandItem className="flex gap-2 cursor-pointer">
-                                            <Avatar className="!rounded-sm">
-                                                <AvatarFallback>
-                                                    {initials(group.name)}
-                                                </AvatarFallback>
-                                                <AvatarImage src={group.backgroundImage && imageUrl(group.backgroundImage)}/>
-                                            </Avatar>
+                                            <Avatar
+                                                className="!rounded-sm"
+                                                name={group.name}
+                                                image={group.backgroundImage}
+                                            />
                                             <div className="flex flex-col">
                                                 <span>
                                                     {group.name}
