@@ -29,7 +29,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleCreateSurvey = () => {
-        files.handleReset();
+        //files.handleReset();
         setSurvey({
             open: false,
             choices: [""]
@@ -63,7 +63,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
     const handleConfirm = async () => {
         const post: any = {text: text};
 
-        if(survey?.choices?.length && !files.selectedFiles.length) {
+        if(survey?.choices?.length) {
             post.survey = {
                 open: survey.open,
                 choices: survey.choices.map((choice: string) => ({
@@ -137,37 +137,35 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
                             </div>
                         </div>
                     ) : (
-                        <>
-                            {files.selectedFiles.length == 0 ? (
-                                <Button
-                                    variant="outline"
-                                    className="w-min"
-                                    onClick={handleCreateSurvey}
-                                >
-                                    <ListTodo className="mr-2 h-4 w-4"/>
-                                    Create survey
-                                </Button>
-                            ) : null}
-                            <label htmlFor="fileInput">
-                                <Button
-                                    variant="outline"
-                                    className="w-min"
-                                    onClick={files.handleOpen}
-                                >
-                                    <Image className="mr-2 h-4 w-4"/>
-                                    Add files
-                                </Button>
-                            </label>
-                            <input
-                                type="file"
-                                className="hidden"
-                                ref={files.ref}
-                                onChange={files.handleFileChange}
-                                multiple
-                            />
-                        </>
+                        <Button
+                            variant="outline"
+                            className="w-min"
+                            onClick={handleCreateSurvey}
+                        >
+                            <ListTodo className="mr-2 h-4 w-4"/>
+                            Create survey
+                        </Button>
                     )}
                 </div>
+
+                <label htmlFor="fileInput">
+                    <Button
+                        variant="outline"
+                        className="w-min"
+                        onClick={files.handleOpen}
+                    >
+                        <Image className="mr-2 h-4 w-4"/>
+                        Add files
+                    </Button>
+                </label>
+                <input
+                    type="file"
+                    className="hidden"
+                    ref={files.ref}
+                    onChange={files.handleFileChange}
+                    multiple
+                />
+
                 {files.selectedFiles.length > 0 ? (
                     <div className="flex flex-col gap-2">
                         {files.selectedFiles.map((file: File, index: number) =>

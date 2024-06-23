@@ -40,7 +40,10 @@ const AdminPosts: React.FC = () => {
                         Text
                     </TableHead>
                     <TableHead>
-                        Files or Survey
+                        Files
+                    </TableHead>
+                    <TableHead>
+                        Survey
                     </TableHead>
                     <TableHead>
                         Likes
@@ -103,7 +106,10 @@ const AdminPosts: React.FC = () => {
                                         </>
                                     ))}
                                 </div>
-                            ) : p.survey ? (
+                            ) : null}
+                        </TableCell>
+                        <TableCell>
+                            {p.survey ? (
                                 <div className="flex flex-col gap-1">
                                     {p.survey.choices.map((choice: SurveyChoice) => 
                                         <div className="flex justify-between gap-5">

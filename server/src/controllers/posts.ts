@@ -11,7 +11,6 @@ import mongoose from "mongoose";
 import GroupModel from "../models/groups";
 import UserModel from "../models/users";
 import getRole from "../queries/groups/getRole";
-import CommentModel from "../models/comments";
 import deletePosts from "../queries/posts/deletePosts";
 
 const pageSize = 10;

@@ -50,7 +50,8 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="px-0 flex flex-col gap-2.5">
+
+            <CardContent className="px-0 py-3 flex flex-col gap-4">
                 <pre className="px-3 text-left font-sans whitespace-pre-wrap">
                     {post.text}
                 </pre>
@@ -59,10 +60,12 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
                         <PostImages images={images}/>
                         <PostFiles files={files}/>
                     </>
-                ) : post.survey ? (
+                ) : null}
+                {post.survey ? (
                     <PostSurvey post={post}/>
                 ) : null}
             </CardContent>
+            
             <CardFooter className="flex justify-between items-center">
                 <div className="flex gap-2">
                     <Button
