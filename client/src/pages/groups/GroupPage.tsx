@@ -15,7 +15,7 @@ import GroupTypeInfo from "@/components/group/GroupTypeInfo.tsx";
 import GroupLoadingPage from "@/components/loading/GroupLoadingPage.tsx";
 import {GroupNotFound} from "@/pages/error";
 import InviteToGroup from "@/components/group/InviteToGroup.tsx";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -37,7 +37,7 @@ const GroupPage: React.FC = () => {
                     <div className="w-full bg-image-wrapper border border-t-0 rounded-lg rounded-t-none">
                         <img
                             className="aspect-[12/4] w-[1200px] object-cover"
-                            src={group.backgroundImage && imageUrl(group.backgroundImage)}
+                            src={group.backgroundImage && fileUrl(group.backgroundImage)}
                             draggable={false}
                         />
                     </div>

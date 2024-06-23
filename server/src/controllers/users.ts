@@ -135,8 +135,8 @@ export const edit = async (req: Request, res: Response) => {
 
     const files = req.files as {[fieldname: string]: Express.Multer.File[]};
 
-    const profileImage = (files["profileImage"]?.[0]?.path || "") as string;
-    const backgroundImage = (files["backgroundImage"]?.[0]?.path || "") as string;
+    const profileImage = (files["profileImage"]?.[0]?.path.split("/")[1] || "") as string;
+    const backgroundImage = (files["backgroundImage"]?.[0]?.path.split("/")[1] || "") as string;
 
     let response: any = {};
 

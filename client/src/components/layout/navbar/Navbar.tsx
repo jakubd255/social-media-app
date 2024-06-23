@@ -1,5 +1,4 @@
 import DarkModeToggle from "./DarkModeToggle";
-import {Avatar, AvatarFallback, AvatarImage} from "../../ui/avatar";
 import {Link} from "react-router-dom";
 import {
     DropdownMenu, DropdownMenuContent, DropdownMenuItem,
@@ -8,13 +7,12 @@ import {
 import {Menu, Settings, ShieldAlert, LogOut} from "lucide-react";
 import {Button} from "../../ui/button";
 import {useSelector} from "react-redux";
-import initials from "@/functions/initials.ts";
 import store from "@/store";
 import {authActions} from "@/store/slices/authSlice.ts";
 import {siderActions} from "@/store/slices/siderSlice.ts";
 import SearchButton from "@/components/layout/navbar/SearchButton.tsx";
 import React from "react";
-import imageUrl from "@/functions/imageUrl";
+import Avatar from "@/components/Avatar";
 
 
 
@@ -48,12 +46,10 @@ const Navbar: React.FC<{account?: boolean}> = ({account = false}) => {
                     {user ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger>
-                                <Avatar>
-                                    <AvatarImage src={user.profileImage && imageUrl(user.profileImage)}/>
-                                    <AvatarFallback className="uppercase">
-                                        {initials(user.fullname)}
-                                    </AvatarFallback>
-                                </Avatar>
+                                <Avatar
+                                    name={user.fullname}
+                                    image={user.profileImage}
+                                />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                                 <DropdownMenuLabel>

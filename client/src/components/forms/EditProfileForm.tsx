@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select.tsx";
 import store from "@/store";
 import {updateProfile} from "@/store/slices/usersSlice.ts";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -81,7 +81,7 @@ const EditProfileForm: React.FC = () => {
                 <div className="flex flex-col items-center relative">
                     <img
                         className="aspect-[12/4] w-[100%] max-w-[1200px] object-cover bg-gray-700"
-                        src={backgroundImage.getLength() ? backgroundImage.getUrl() : imageUrl(profile.backgroundImage)}
+                        src={backgroundImage.getLength() ? backgroundImage.getUrl() : fileUrl(profile.backgroundImage)}
                         draggable={false}
                     />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -97,7 +97,7 @@ const EditProfileForm: React.FC = () => {
                                 <AvatarFallback className="text-6xl uppercase">
                                     {initials(profile.fullname)}
                                 </AvatarFallback>
-                                <AvatarImage src={profileImage.getLength() ? profileImage.getUrl() : imageUrl(profile.profileImage)}/>
+                                <AvatarImage src={profileImage.getLength() ? profileImage.getUrl() : fileUrl(profile.profileImage)}/>
                             </Avatar>
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                                 <label htmlFor="fileInput">
@@ -160,6 +160,7 @@ const EditProfileForm: React.FC = () => {
                                         Don't specify
                                     </SelectItem>
                                     <SelectItem value="he">
+                           
                                         He/Him
                                     </SelectItem>
                                     <SelectItem value="she">
@@ -202,12 +203,14 @@ const EditProfileForm: React.FC = () => {
             </div>
             <input
                 type="file"
+                accept="image/*"
                 style={{display: "none"}}
                 onChange={profileImage.handleFileChange}
                 ref={profileImage.ref}
             />
             <input
                 type="file"
+                accept="image/*"
                 style={{display: "none"}}
                 onChange={backgroundImage.handleFileChange}
                 ref={backgroundImage.ref}

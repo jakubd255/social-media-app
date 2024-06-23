@@ -7,10 +7,11 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Trash2, Image, Loader2, ListTodo} from "lucide-react";
+import {Trash2, Image, Loader2, ListTodo, File} from "lucide-react";
 import {addPost} from "@/store/slices/postsSlice.ts";
 import store from "@/store";
 import {Group} from "@/types";
+import checkFileType from "@/functions/checkFileType";
 
 
 
@@ -18,7 +19,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
     const user = useSelector((state: any) => state.auth.user);
 
     const isUploading = useSelector((state: any) => state.posts.isUploading);
-    const images = useFiles();
+    const files = useFiles();
 
     const [text, setText] = useState<string>();
     const handleUpdateText = (e: any) => setText(e.target.value);
@@ -28,7 +29,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleCreateSurvey = () => {
-        images.handleReset();
+        files.handleReset();
         setSurvey({
             open: false,
             choices: [""]
@@ -60,9 +61,9 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
     }
 
     const handleConfirm = async () => {
-        let post: any = {text: text};
+        const post: any = {text: text};
 
-        if(survey?.choices?.length && !images.selectedFiles.length) {
+        if(survey?.choices?.length && !files.selectedFiles.length) {
             post.survey = {
                 open: survey.open,
                 choices: survey.choices.map((choice: string) => ({
@@ -79,7 +80,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
             post.groupId = group._id;
         }
 
-        store.dispatch(addPost({post: post, images: images.selectedFiles}));
+        store.dispatch(addPost({post: post, files: files.selectedFiles}));
         
         closeButtonRef.current?.click();
     }
@@ -137,7 +138,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
                         </div>
                     ) : (
                         <>
-                            {images.selectedFiles.length == 0 ? (
+                            {files.selectedFiles.length == 0 ? (
                                 <Button
                                     variant="outline"
                                     className="w-min"
@@ -151,31 +152,40 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
                                 <Button
                                     variant="outline"
                                     className="w-min"
-                                    onClick={images.handleOpen}
+                                    onClick={files.handleOpen}
                                 >
                                     <Image className="mr-2 h-4 w-4"/>
-                                    Add images
+                                    Add files
                                 </Button>
                             </label>
                             <input
                                 type="file"
                                 className="hidden"
-                                ref={images.ref}
-                                onChange={images.handleFileChange}
+                                ref={files.ref}
+                                onChange={files.handleFileChange}
                                 multiple
                             />
                         </>
                     )}
                 </div>
-                {images.selectedFiles.length > 0 ? (
+                {files.selectedFiles.length > 0 ? (
                     <div className="flex flex-col gap-2">
-                        {images.selectedFiles.map((file: File, index: number) =>
+                        {files.selectedFiles.map((file: File, index: number) =>
                             <div className="flex justify-between items-center border rounded-sm p-1">
                                 <div className="flex gap-2 items-center">
-                                    <img 
-                                        src={URL.createObjectURL(file)} 
-                                        className="max-h-[50px] max-w-[500px]"
-                                    />
+                                    {checkFileType(file.name) === "image" ? (
+                                        <img 
+                                            src={URL.createObjectURL(file)} 
+                                            className="max-h-[50px] max-w-[500px]"
+                                        />
+                                    ) : checkFileType(file.name) === "video" ? (
+                                        <video 
+                                            src={URL.createObjectURL(file)} 
+                                            className="max-h-[50px] max-w-[500px]"
+                                        />
+                                    ) : (
+                                        <File className="icon"/>
+                                    )}
                                     <span>
                                         {file.name}
                                     </span>
@@ -183,7 +193,7 @@ const PostForm: React.FC<{group?: Group}> = ({group}) => {
                                 <Button
                                     variant="outline"
                                     size="icon"
-                                    onClick={() => images.deleteByIndex(index)}
+                                    onClick={() => files.deleteByIndex(index)}
                                 >
                                     <Trash2 className="h-4 w-4"/>
                                 </Button>

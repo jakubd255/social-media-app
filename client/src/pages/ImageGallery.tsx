@@ -6,7 +6,8 @@ import store from "@/store";
 import {getPosts, loadMorePosts} from "@/store/slices/postsSlice.ts";
 import {Post} from "@/types";
 import Masonry from "react-masonry-css";
-import imageUrl from "@/functions/imageUrl";
+import checkFileType from "@/functions/checkFileType";
+import {videoUrl, fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -15,7 +16,7 @@ const ImageGallery: React.FC = () => {
     const {choice}: any = useOutletContext();
 
     const posts = useSelector((state: any) => state.posts);
-    const length = posts.list.filter((post: Post) => post.images?.length).length;
+    const length = posts.list.filter((post: Post) => post.files?.length).length;
 
     useEffect(() => {
         store.dispatch(getPosts({choice, id}));
@@ -36,16 +37,28 @@ const ImageGallery: React.FC = () => {
                         className="my-masonry-grid"
                         columnClassName="my-masonry-grid_column"
                     >
-                        {posts.list.map((post: Post) => post.images?.map((image: string, index: number) => (
-                            <div key={index} className="masonry-item">
-                                <img
-                                    src={imageUrl(image)}
-                                    className="rounded-lg border-2"
-                                    draggable={false}
-                                    alt={`Post Image ${index}`}
-                                />
-                            </div>
-                        )))}
+                        {posts.list.map((post: Post) => {
+                            const images = post.files?.filter(file => ["video", "image"].includes(checkFileType(file))) as string[];
+
+                            return images.map((image: string, index: number) => (
+                                <div key={index} className="masonry-item">
+                                    {checkFileType(image) === "image" ? (
+                                        <img
+                                            src={fileUrl(image)}
+                                            className="rounded-lg border-2"
+                                            draggable={false}
+                                        />
+                                    ) : checkFileType(image) === "video" ? (
+                                        <video
+                                            src={videoUrl(image)}
+                                            className="rounded-lg border-2"
+                                            draggable={false}
+                                            controls
+                                        />
+                                    ) : null}
+                                </div>
+                            ));
+                        })}
                     </Masonry>
                 ) : null}
             </InfiniteScroll>

@@ -10,6 +10,7 @@ import posts from "./routes/posts";
 import groups from "./routes/groups";
 import links from "./routes/links";
 import comments from "./routes/comments";
+import files from "./routes/files";
 import createAdmin from "./admin";
 
 dotenv.config();
@@ -25,7 +26,9 @@ server.use("/posts", posts);
 server.use("/groups", groups);
 server.use("/links", links);
 server.use("/comments", comments);
-server.use("/uploads", express.static("uploads"));
+server.use("/files", files);
+//server.use("/uploads", express.static("uploads"));
+
 
 server.get("/",  (req: Request, res: Response) => {
     return res.status(200).send("Hello World!");

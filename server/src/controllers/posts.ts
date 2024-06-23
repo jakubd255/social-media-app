@@ -21,12 +21,12 @@ const pageSize = 10;
 export const add = async (req: Request, res: Response) => {
     const {user} = req.body;
     const files: Express.Multer.File[] = (req.files as Express.Multer.File[]) || [];
-    const imagePaths = files.map((file) => file.path);
+    const filesPaths = files.map((file) => file.path.split("/")[1]);
 
     const post = JSON.parse(req.body.postData);
 
-    if(imagePaths.length) {
-        post.images = imagePaths;
+    if(filesPaths.length) {
+        post.files = filesPaths;
     }
 
     let canAdd = false;
@@ -64,7 +64,7 @@ export const add = async (req: Request, res: Response) => {
         const newPost = new PostModel(post);
         await newPost.save();
 
-        return res.status(201).json({postId: newPost._id, images: imagePaths});
+        return res.status(201).json({postId: newPost._id, files: filesPaths});
     }
     else {
         return res.status(403).send();

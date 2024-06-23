@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
     text: {type: String, required: false},
-    images: {type: [String], required: false},
+    files: {type: [String], required: false},
     survey: {type: {
         open: Boolean,
         choices: [{

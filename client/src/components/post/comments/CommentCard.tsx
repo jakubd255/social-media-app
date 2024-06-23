@@ -1,7 +1,5 @@
 import React from "react";
 import {Card, CardContent} from "@/components/ui/card.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import initials from "@/functions/initials.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Link} from "react-router-dom";
 import time from "@/functions/time.ts";
@@ -12,7 +10,7 @@ import {postsActions} from "@/store/slices/postsSlice.ts";
 import {Comment, Post} from "@/types";
 import {canDeleteComment} from "@/functions/permission.ts";
 import {useSelector} from "react-redux";
-import imageUrl from "@/functions/imageUrl";
+import Avatar from "@/components/Avatar";
 
 
 
@@ -29,12 +27,10 @@ const CommentCard: React.FC<{comment: Comment}> = ({comment}) => {
         <Card className="border-0">
             <CardContent className="flex justify-between p-1">
                 <div className="flex gap-2">
-                    <Avatar>
-                        <AvatarFallback>
-                            {initials(comment.user.fullname)}
-                        </AvatarFallback>
-                        <AvatarImage src={comment.user.profileImage && imageUrl(comment.user.profileImage)}/>
-                    </Avatar>
+                    <Avatar
+                        name={comment.user.fullname}
+                        image={comment.user.profileImage}
+                    />
                     <div className="flex flex-col">
                         <div className="flex gap-4">
                             <Button

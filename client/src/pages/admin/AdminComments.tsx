@@ -7,7 +7,7 @@ import {MoreHorizontal, Trash2} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {useOutletContext} from "react-router-dom";
 import initials from "@/functions/initials.ts";
-import imageUrl from "@/functions/imageUrl";
+import {fileUrl} from "@/functions/fileUrl";
 
 
 
@@ -50,7 +50,7 @@ const AdminComments: React.FC = () => {
                             {c.user ? (
                                 <div className="flex gap-2">
                                     <Avatar>
-                                        <AvatarImage src={imageUrl(c.user.profileImage)}/>
+                                        <AvatarImage src={fileUrl(c.user.profileImage)}/>
                                         <AvatarFallback>
                                             {initials(c.user.fullname)}
                                         </AvatarFallback>

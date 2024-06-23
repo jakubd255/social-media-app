@@ -134,7 +134,7 @@ const getPostsSaved = async (myId: string, page: number, pageSize: number) => {
         {$project: {
             _id: 1,
             text: 1,
-            images: 1,
+            files: 1,
             comments: 1,
             likes: 1,
             isLiked: 1,

@@ -4,8 +4,8 @@ import {
 } from "@/components/ui/dialog";
 import {Button} from "../ui/button";
 import server from "@/constants/server";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 
 

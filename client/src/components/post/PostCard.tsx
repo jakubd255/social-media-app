@@ -13,6 +13,8 @@ import PostGroup from "@/components/post/author/PostGroup.tsx";
 import DestroyableDialog from "@/components/DestroyableDialog.tsx";
 import CommentsList from "@/components/post/comments/CommentsList.tsx";
 import {Post} from "@/types";
+import checkFileType from "@/functions/checkFileType";
+import PostFiles from "./PostFiles";
 
 
 
@@ -25,6 +27,9 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
     const handleLike = () => store.dispatch(postsActions.like(post._id));
 
     const likeClass = `icon ${post.isLiked && "fill-black dark:fill-white"}`;
+
+    const images = post.files?.filter(file => ["video", "image"].includes(checkFileType(file))) as string[];
+    const files = post.files?.filter(file => !["video", "image"].includes(checkFileType(file))) as string[];
 
     if(post) return(
         <Card className="max-w-[600px] w-full">
@@ -49,8 +54,11 @@ const PostCard: React.FC<PostCardProps> = ({post, hideGroup=false}) => {
                 <pre className="px-3 text-left font-sans whitespace-pre-wrap">
                     {post.text}
                 </pre>
-                {post.images?.length ? (
-                    <PostImages images={post.images}/>
+                {post.files?.length ? (
+                    <>
+                        <PostImages images={images}/>
+                        <PostFiles files={files}/>
+                    </>
                 ) : post.survey ? (
                     <PostSurvey post={post}/>
                 ) : null}

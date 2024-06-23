@@ -1,5 +1,3 @@
-import initials from "@/functions/initials";
-import {Avatar, AvatarFallback, AvatarImage} from "../ui/avatar";
 import {Button} from "../ui/button";
 import {Link} from "react-router-dom";
 import GroupMemberDropdown from "@/components/user/GroupMemberDropdown.tsx";
@@ -11,7 +9,7 @@ import store from "@/store";
 import {usersActions} from "@/store/slices/usersSlice.ts";
 import {useSelector} from "react-redux";
 import RoleIcon from "@/components/group/RoleIcon.tsx";
-import imageUrl from "@/functions/imageUrl.ts";
+import Avatar from "../Avatar.tsx";
 
 
 
@@ -31,15 +29,10 @@ const ProfilesListElement: React.FC<ProfilesListElementProps> = ({profile, showG
     return(
         <div className="flex justify-between h-max max-w-[600px] w-full">
             <div className="flex gap-2">
-                <Avatar>
-                    <AvatarImage 
-                        src={profile.profileImage && imageUrl(profile.profileImage)} 
-                        draggable={false}
-                    />
-                    <AvatarFallback>
-                        {initials(profile.fullname)}
-                    </AvatarFallback>
-                </Avatar>
+                <Avatar
+                    name={profile.fullname}
+                    image={profile.profileImage}
+                />
                 <div className="flex flex-col">
                     <div className="flex gap-2 items-center">
                         <Button 
