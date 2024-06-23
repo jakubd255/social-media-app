@@ -92,7 +92,7 @@ const GroupDetails: React.FC = () => {
                     </div>
                 </div>
                 <input
-                    type="image"
+                    type="file"
                     accept="image/*"
                     onChange={backgroundImage.handleFileChange}
                     style={{display: "none"}}

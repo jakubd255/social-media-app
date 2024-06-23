@@ -5,11 +5,12 @@ const checkFileType = (fileName: string): FileType => {
 
     const fileExtension = fileParts[fileParts.length-1];
 
-    if(["png", "jpg", "jpeg", "webp"].includes(fileExtension.toLocaleLowerCase())) 
+    if(["png", "jpg", "jpeg", "webp", "gif"].includes(fileExtension.toLocaleLowerCase())) 
         return "image";
-    else if(["mp4"].includes(fileExtension)) 
+    else if(["mp4", "mov"].includes(fileExtension.toLocaleLowerCase())) 
         return "video";
-    else return "file";
+    else 
+        return "file";
 }
 
 export default checkFileType;

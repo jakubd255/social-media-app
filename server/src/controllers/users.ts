@@ -11,6 +11,8 @@ import getFollowers from "../queries/users/getFollowers";
 import getUserRequests from "../queries/users/getUserRequests";
 import getUsersExplore from "../queries/users/getUsersExplore";
 import mongoose from "mongoose";
+import deleteFile from "../queries/files/deleteFile";
+import deletePosts from "../queries/posts/deletePosts";
 
 const pageSize = 10;
 
@@ -149,7 +151,14 @@ export const edit = async (req: Request, res: Response) => {
         response.backgroundImage = backgroundImage;
     }
 
-    await UserModel.findByIdAndUpdate(user._id, data).exec();
+    const userOld = await UserModel.findByIdAndUpdate(user._id, data).select("_id profileImage backgroundImage").exec();
+
+    if(userOld?.profileImage && profileImage !== "") {
+        deleteFile(userOld.profileImage);
+    }
+    if(userOld?.backgroundImage && backgroundImage !== "") {
+        deleteFile(userOld.backgroundImage);
+    }
 
     return res.status(200).json({images: response});
 }
@@ -281,10 +290,17 @@ export const remove = async (req: Request, res: Response) => {
     const userMe = await UserModel.findById(req.body.user._id).select("_id admin").exec();
     
     if(userMe?.admin || userMe?._id.equals(id)) {
-        UserModel.findByIdAndDelete(userId).exec();
+        const user = await UserModel.findByIdAndDelete(userId).select("_id backgroudImage profileImage").exec();
 
-        PostModel.deleteMany({userId: userId}).exec();
+        deletePosts({userId: userId});
         CommentModel.deleteMany({userId: userId}).exec();
+
+        if(user?.profileImage) {
+            deleteFile(user.profileImage);
+        }
+        if(user?.backgroundImage) {
+            deleteFile(user.backgroundImage);
+        }
 
         PostModel.updateMany(
             {userId: userId}, 

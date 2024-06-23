@@ -7,6 +7,8 @@ import getGroupRequests from "../queries/users/getGroupRequests";
 import mongoose from "mongoose";
 import getGroup from "../queries/groups/getGroup";
 import getRole from "../queries/groups/getRole";
+import deletePosts from "../queries/posts/deletePosts";
+import deleteFile from "../queries/files/deleteFile";
 
 const pageSize = 10;
 
@@ -209,6 +211,7 @@ export const getRequests = async (req: Request, res: Response) => {
 
 
 //Edit group
+//TODO: Usuwanie starych zdjęć
 export const edit = async (req: Request, res: Response) => {
     const {id} = req.params;
     const {user, formData} = req.body;
@@ -229,7 +232,11 @@ export const edit = async (req: Request, res: Response) => {
         response.backgroundImage = backgroundImage;
     }
 
-    await GroupModel.findByIdAndUpdate(id, data).exec();
+    const groupOld = await GroupModel.findByIdAndUpdate(id, data).exec();
+
+    if(groupOld?.backgroundImage) {
+        deleteFile(groupOld.backgroundImage);
+    }
 
     return res.status(200).json({images: response});
 }
@@ -415,6 +422,7 @@ export const removeMember = async (req: Request, res: Response) => {
 
 
 //Remove group
+//TODO: Usuwanie zdjęć
 export const remove = async (req: Request, res: Response) => {
     const {user} = req.body;
     const {id} = req.params;
@@ -425,13 +433,18 @@ export const remove = async (req: Request, res: Response) => {
         return res.status(403).send();
     }
 
-    const group = await GroupModel.findByIdAndDelete(id).select("_id").exec();
+    const group = await GroupModel.findByIdAndDelete(id).select("_id backgroundImage").exec();
+
+    if(group?.backgroundImage) {
+        deleteFile(group.backgroundImage);
+    }
 
     if(!group) {
         return res.status(404).send();
     }
 
-    await PostModel.deleteMany({groupId: group._id}).exec();
+    //await PostModel.deleteMany({groupId: group._id}).exec();
+    await deletePosts({groupId: group._id});
 
     return res.status(200).send();
 }

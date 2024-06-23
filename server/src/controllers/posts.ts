@@ -12,6 +12,7 @@ import GroupModel from "../models/groups";
 import UserModel from "../models/users";
 import getRole from "../queries/groups/getRole";
 import CommentModel from "../models/comments";
+import deletePosts from "../queries/posts/deletePosts";
 
 const pageSize = 10;
 
@@ -276,7 +277,7 @@ export const addVoteOption = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
     const {user} = req.body;
     const {id} = req.params;
-    const post = await PostModel.findByIdAndDelete(id).select("_id userId groupId").exec();
+    const post = await PostModel.findById(id).select("_id userId groupId").exec();
 
     if(!post) {
         return res.status(404).send();
@@ -302,8 +303,8 @@ export const remove = async (req: Request, res: Response) => {
     }
 
     if(canDelete) {
-        await PostModel.findByIdAndDelete(id).exec();
-        await CommentModel.deleteMany({postId: post._id}).exec();
+        await deletePosts({_id: new mongoose.Types.ObjectId(id)});
+
         return res.status(200).send();
     }
     else {
