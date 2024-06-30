@@ -3,7 +3,7 @@ Social media portal built using MERN Stack with TypeScript.
 Written as project for Internet Engineering classes.
 
 
-# Features
+## Features
 - Login and registration system
 - User Profile
 - Follow system - like in Instagram or Twitter
